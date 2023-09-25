@@ -1,61 +1,69 @@
-from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt
 from sqlalchemy.exc import SQLAlchemyError
 
 from db import db
 from models import TaskModel
 from schemas import TaskSchema, TaskUpdateSchema
 
-blp = Blueprint("Tasks", __name__, description="Operations on tasks")
+blp = Blueprint("Tasks", "tasks", description="Operations on tasks")
 
 
-
-@blp.route("/item/<int:item_id>")
-class Task(MethodView):
+@blp.route("/task/<string:task_id>")
+class task(MethodView):
+    @jwt_required()
     @blp.response(200, TaskSchema)
-    def get(self, item_id):
-        item = TaskModel.query.get_or_404(item_id)
-        return item
+    def get(self, task_id):
+        task = TaskModel.query.get_or_404(task_id)
+        return task
 
     @jwt_required()
-    def delete(self, item_id):
-        item = TaskModel.query.get_or_404(item_id)
-        db.session.delete(item)
+    def delete(self, task_id):
+        jwt = get_jwt()
+        # if not jwt.get("is_admin"):
+        #     abort(401, message=f"Admin privilege required. jwt: {jwt}")
+
+        task = TaskModel.query.get_or_404(task_id)
+        db.session.delete(task)
         db.session.commit()
-        return {"Message": "Task.deleted"}
+        return {"message": "task deleted."}
 
     @blp.arguments(TaskUpdateSchema)
     @blp.response(200, TaskSchema)
-    def put(self, item_data, item_id):
-        item = TaskModel.query.get(item_id)
-        if item:
-            item.price = item_data["price"]
-            item.name = item_data["name"]
+    def put(self, task_data, task_id):
+        task = TaskModel.query.get(task_id)
+
+        if task:
+            task.details = task_data["details"]
+            task.name = task_data["name"]
+            task.completed = task_data["completed"]
         else:
-            item = TaskModel(id=item_id, **item_data)
+            task = TaskModel(id=task_id, **task_data)
 
-        db.session.add(item)
+        db.session.add(task)
         db.session.commit()
-        return item
 
-@blp.route("/item")
-class TodoList(MethodView):
+        return task
+
+
+@blp.route("/task")
+class taskList(MethodView):
+    @jwt_required()
     @blp.response(200, TaskSchema(many=True))
     def get(self):
         return TaskModel.query.all()
-    
+
     @jwt_required(fresh=True)
     @blp.arguments(TaskSchema)
     @blp.response(201, TaskSchema)
-    def post(self, item_data):
-        item= TaskModel(**item_data)
+    def post(self, task_data):
+        task = TaskModel(**task_data)
 
         try:
-            db.session.add(item)
+            db.session.add(task)
             db.session.commit()
         except SQLAlchemyError:
-            abort(500, message="An error occurred while inserting the item.")
-        
-        return item
+            abort(500, message="An error occurred while inserting the task.")
+
+        return task

@@ -12,7 +12,7 @@ from models import *
 
 from resources.task import blp as TaskBlueprint
 from resources.todolist import blp as TodoListBlueprint
-from resources.category import blp as TagBlueprint
+from resources.category import blp as CategoryBlueprint
 from resources.user import blp as UserBlueprint
 
 def create_app(db_url=None):
@@ -58,12 +58,12 @@ def create_app(db_url=None):
             401,
         )
 
-    @jwt.additional_claims_loader
-    def add_claims_to_jwt(identity):
-        # Could for instance look in the database and see whether the user is an admin
-        if identity == 1:
-            return {"is_admin": True}
-        return {"is_admin": False}
+    # @jwt.additional_claims_loader
+    # def add_claims_to_jwt(identity):
+    #     # Could for instance look in the database and see whether the user is an admin
+    #     if identity == 1:
+    #         return {"is_admin": True}
+    #     return {"is_admin": False}
 
     @jwt.expired_token_loader
     def expired_token_callback(jwt_header, jwt_payload):
@@ -91,7 +91,7 @@ def create_app(db_url=None):
 
     api.register_blueprint(TaskBlueprint)
     api.register_blueprint(TodoListBlueprint)
-    api.register_blueprint(TagBlueprint)
+    api.register_blueprint(CategoryBlueprint)
     api.register_blueprint(UserBlueprint)
 
     return app

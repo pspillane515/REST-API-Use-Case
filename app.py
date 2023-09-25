@@ -87,6 +87,8 @@ def create_app(db_url=None):
         )
 
     # with app.app_context():
+    #     import models  # noqa: F401
+
     #     db.create_all()
 
     api.register_blueprint(TaskBlueprint)

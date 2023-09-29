@@ -20,10 +20,6 @@ class task(MethodView):
 
     @jwt_required()
     def delete(self, task_id):
-        jwt = get_jwt()
-        # if not jwt.get("is_admin"):
-        #     abort(401, message=f"Admin privilege required. jwt: {jwt}")
-
         task = TaskModel.query.get_or_404(task_id)
         db.session.delete(task)
         db.session.commit()
@@ -38,6 +34,7 @@ class task(MethodView):
             task.details = task_data["details"]
             task.name = task_data["name"]
             task.completed = task_data["completed"]
+            task.todolist_id = task_data["todolist_id"]
         else:
             task = TaskModel(id=task_id, **task_data)
 

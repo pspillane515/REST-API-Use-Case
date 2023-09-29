@@ -9,4 +9,4 @@ class TodoListModel(db.Model):
  
     users = db.relationship("UserModel", back_populates="todolist")
     tasks = db.relationship("TaskModel", back_populates="todolist", lazy="dynamic", cascade="all, delete")
-    categories = db.relationship("CategoryModel", back_populates="todolist", lazy="dynamic")
+    categories = db.relationship("CategoryModel", back_populates="todolist", lazy="dynamic", cascade="all, delete")

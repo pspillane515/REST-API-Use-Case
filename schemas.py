@@ -28,9 +28,11 @@ class TaskUpdateSchema(Schema):
     name = fields.Str()
     details = fields.Str()
     completed = fields.Bool()
+    todolist_id = fields.Int()
 
 class TodoListUpdateSchema(Schema):
     name = fields.Str()
+    user_id = fields.Int()
 
 class TodoListSchema(PlainTodoListSchema):
     tasks = fields.List(fields.Nested(PlainTaskSchema()), dump_only=True)

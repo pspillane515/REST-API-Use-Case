@@ -33,7 +33,7 @@ class TodoList(MethodView):
         current_user = get_jwt_identity()
         return {"message": f"todolist deleted for user_id: {current_user}"}, 200
     
-    @jwt_required
+    @jwt_required()
     @blp.arguments(TodoListUpdateSchema)
     @blp.response(200, TodoListSchema)
     def put(self, todolist_data, todolist_id):
@@ -41,6 +41,7 @@ class TodoList(MethodView):
 
         if tasklist:
             tasklist.name = todolist_data["name"]
+            tasklist.user_id = todolist_data["user_id"]
         else:
             tasklist = TodoListModel(id=todolist_id, **todolist_data)
         db.session.add(tasklist)
@@ -72,7 +73,7 @@ class todolistList(MethodView):
         except IntegrityError:
             abort(
                 400,
-                message="A todolist with that name already exists.",
+                message="A todolist for that user already exists.",
             )
         except SQLAlchemyError:
             abort(500, message="An error occurred creating the todolist.")

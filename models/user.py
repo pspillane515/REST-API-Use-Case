@@ -8,4 +8,4 @@ class UserModel(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
 
-    todolist = db.relationship("TodoListModel", back_populates="users", lazy="dynamic")
+    todolist = db.relationship("TodoListModel", back_populates="users", lazy="dynamic", cascade="all, delete")

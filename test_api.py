@@ -6,38 +6,8 @@ TODOLIST = "todolist"
 CATEGORY = "category"
 USER = "user"
 
-
 def construct_url(common_url, api):
     return common_url + api
-
-"""
-Example Demonstration Flows:
-# Register, Authenticate, Connect... User1
-1. Register "User1"->Get Credentials->Connect "User1"-> Authenticate -> Demonstrate Get Request xyz...
-2. Connect "User1" -> Authenticate -> Demonstrate Post Request xyz...
-3. Logout/Terminate/Timeout "User1"
-
-# Register, Authenticate, Connect... User2
-1. Register "User1"->Get Credentials->Connect "User2"-> Authenticate -> Demonstrate Get Request abc...
-2. Demonstrate Failed Authentication
-3. Connect "User1" -> Authenticate -> Demonstrate Post Request abc...
-4. Logout/Terminate/Timeout "User2"
-
-# Create Todo List and Task for User1
-1. Login User1
-"""
-
-
-"""
-1. User registration
-2. User Login
-3. Create a List
-4. Create a Task
-5. Complete Task
-6. Delete a To-Do List
-7. 
-
-"""
 
 user1 = "user1"
 user2 = "user2"
@@ -73,17 +43,19 @@ def get_user(user_id):
     response = requests.get(url)
     return response.text
 
-# print(f"REGISTER USER1: {register(user1, pw)}")
-# print(f"GET USER1: {get_user(user_id=1)}")
-# token = login(user1, pw)
-# print(f"LOGIN USER1: access_token: {token}")
-# print(f"FAILED LOGIN: {login(user1, 'wrong-password')}")
-# print(f"REGISTER USER2: {register(user2, pw)}")
-# print(f"GET USER2: {get_user(user_id=2)}")
-# print(f"DELETE USER2: {delete_user(2)}")
-# print(f"GET USER2: {get_user(user_id=2)}")
-# print(f"REREGISTER USER2: {register(user2, pw)}")
+print("################ USER OPERATIONS ################\n")
+print(f"REGISTER USER1: {register(user1, pw)}")
+print(f"GET USER1: {get_user(user_id=1)}")
+token = login(user1, pw)
+print(f"LOGIN USER1: access_token: {token} \n")
+print(f"FAILED LOGIN: {login(user1, 'wrong-password')}")
+print(f"REGISTER USER2: {register(user2, pw)}")
+print(f"GET USER2: {get_user(user_id=2)}")
+print(f"DELETE USER2: {delete_user(2)}")
+print(f"GET USER2: {get_user(user_id=2)}")
+print(f"REREGISTER USER2: {register(user2, pw)}")
 
+print("\n#####################################################\n")
 # Todo List Operations
 
 def get_all_todolist():
@@ -114,29 +86,29 @@ def update_todolist(todolist_id, access_token, name, user_id):
 user1_todolist_id = 1
 user2_todolist_id = 3
 
-# token = login(user1, pw)
-# print("access_token: " + token)
+token = login(user1, pw)
 
-# print(f"GET ALL TODOLIST (BEFORE CREATION): {get_all_todolist()}")
-# print(f"CREATE TODOLIST USER1: {create_todolist(name='User 1 To-do List', user_id=1, access_token=token)}")
-# print(f"GET SPECIFIC TODOLIST: {get_todolist(todolist_id=user1_todolist_id, access_token=login(user1, pw))}")
+print("################ TODOLIST OPERATIONS ################\n")
+print(f"GET ALL TODOLIST (BEFORE CREATION): {get_all_todolist()}")
+print(f"CREATE TODOLIST USER1: {create_todolist(name='User 1 To-do List', user_id=1, access_token=token)}")
+print(f"GET SPECIFIC TODOLIST: {get_todolist(todolist_id=user1_todolist_id, access_token=login(user1, pw))}")
 
-# print(f"LOGOUT USER1: {logout(user=user1, password=pw, access_token=token)}")
-# print(f"GET SPECIFIC TODOLIST: {get_todolist(todolist_id=user1_todolist_id, access_token=token)}")
+print(f"LOGOUT USER1: {logout(user=user1, password=pw, access_token=token)}")
+print(f"GET SPECIFIC TODOLIST: {get_todolist(todolist_id=user1_todolist_id, access_token=token)}")
 
-# token = login(user1, pw)
+token = login(user1, pw)
 
-# print(f"ATTEMPT SECOND CREATE TODOLIST USER1: {create_todolist(name='User 1 To-do List 2?', user_id=1, access_token=token)}")
-# print(f"UPDATE TODOLIST: {update_todolist(todolist_id=user1_todolist_id, access_token=login(user1, pw), name='User 1 New To-do List', user_id=1)}")
+print(f"ATTEMPT SECOND CREATE TODOLIST USER1: {create_todolist(name='User 1 To-do List 2?', user_id=1, access_token=token)}")
+print(f"UPDATE TODOLIST: {update_todolist(todolist_id=user1_todolist_id, access_token=login(user1, pw), name='User 1 New To-do List', user_id=1)}")
 
-# print(f"ATTEMPT CREATE TODOLIST USER2: {create_todolist(name='User 2 To-do List?', user_id=3, access_token=token)}")
+print(f"ATTEMPT CREATE TODOLIST USER2: {create_todolist(name='User 2 To-do List?', user_id=3, access_token=token)}")
 
-# token = login(user2, pw)
-# print(f"LOGIN USER2 AND CREATE TODOLIST: {create_todolist(name='User 2 To-do List', user_id=3, access_token=token)}")
-# print(f"ATTEMPT TO ACCESS USER1 TODOLIST: {get_todolist(todolist_id=user1_todolist_id, access_token=token)}")
+token = login(user2, pw)
+print(f"LOGIN USER2 AND CREATE TODOLIST: {create_todolist(name='User 2 To-do List', user_id=3, access_token=token)}")
+print(f"ATTEMPT TO ACCESS USER1 TODOLIST: {get_todolist(todolist_id=user1_todolist_id, access_token=token)}")
 
-# print(f"DELETE TODOLIST: {delete_todolist(todolist_id=user2_todolist_id, access_token=token)}")
-
+print(f"DELETE TODOLIST: {delete_todolist(todolist_id=user2_todolist_id, access_token=token)}")
+print("\n#################################################\n")
 
 # Task Operations
 
@@ -168,25 +140,25 @@ def update_task(task_id, access_token, name, details, completed, todolist_id):
     return response.text
 
 
-# token = login(user1, pw)
-# print("access_token: " + token)
+print("################ TASK OPERATIONS ################\n")
+token = login(user1, pw)
 
-# print(f"GET ALL TASKS (BEFORE CREATION): {get_all_tasks(access_token=token)}")
+print(f"GET ALL TASKS (BEFORE CREATION): {get_all_tasks(access_token=token)}")
 
-# first_task = create_task(name='First Task', details='My Details', completed=False, todolist_id=user1_todolist_id, access_token=token)
-# print(f"CREATE TASK: {first_task}")
+first_task = create_task(name='First Task', details='My Details', completed=False, todolist_id=user1_todolist_id, access_token=token)
+print(f"CREATE TASK: {first_task}")
 
-# print(f"GET SPECIFIC TASK: {get_task(task_id=1, access_token=login(user1, pw))}")
-# print(f"GET SPECIFIC TASK (UNKNOWN ID): {get_task(task_id=10, access_token=login(user1, pw))}")
+print(f"GET SPECIFIC TASK: {get_task(task_id=1, access_token=login(user1, pw))}")
+print(f"GET SPECIFIC TASK (UNKNOWN ID): {get_task(task_id=10, access_token=login(user1, pw))}")
 
-# print(f"CREATE TASK 2: {create_task(name='Second Task', details='My Second Details', completed=False, todolist_id=user1_todolist_id, access_token=token)}")
-# print(f"GET ALL TASKS: {get_all_tasks(access_token=token)}")
+print(f"CREATE TASK 2: {create_task(name='Second Task', details='My Second Details', completed=False, todolist_id=user1_todolist_id, access_token=token)}")
+print(f"GET ALL TASKS: {get_all_tasks(access_token=token)}")
 
-# print(f"DELETE TASK: {delete_task(task_id=2, access_token=login(user1, pw))}")
-# print(f"GET ALL TASKS: {get_all_tasks(access_token=token)}")
+print(f"DELETE TASK: {delete_task(task_id=2, access_token=login(user1, pw))}")
+print(f"GET ALL TASKS: {get_all_tasks(access_token=token)}")
 
-# print(f"UPDATE TASK: {update_task(task_id=1, access_token=token, name='First Task EDIT', details='My Details EDIT', completed=True, todolist_id=user1_todolist_id)}")
-
+print(f"UPDATE TASK: {update_task(task_id=1, access_token=token, name='First Task EDIT', details='My Details EDIT', completed=True, todolist_id=user1_todolist_id)}")
+print("\n#####################################################\n")
 
 # Category Operations
 
@@ -202,7 +174,6 @@ def get_categories_from_list(todolist_id):
 
 def create_category(name, todolist_id):
     url = construct_url(URL, TODOLIST) + f"/{todolist_id}/{CATEGORY}"
-    print(f"URL IS {url}")
     response = requests.post(url, json={"name": name})
     return response.text
 
@@ -222,25 +193,26 @@ def remove_task_from_category(task_id, category_id):
     return response.text
 
 
-# token = login(user1, pw)
-# print("access_token: " + token)
+print("################ CATEGORY OPERATIONS ################\n")
+token = login(user1, pw)
 
-# print(f"GET ALL CATEGORIES OF LIST (BEFORE CREATION): {get_categories_from_list(todolist_id=user1_todolist_id)}")
+print(f"GET ALL CATEGORIES OF LIST (BEFORE CREATION): {get_categories_from_list(todolist_id=user1_todolist_id)}")
 
-# first_category = create_category(name='First Category', todolist_id=user1_todolist_id)
-# print(f"CREATE CATEGORY: {first_category}")
+first_category = create_category(name='First Category', todolist_id=user1_todolist_id)
+print(f"CREATE CATEGORY: {first_category}")
 
-# print(f"GET SPECIFIC CATEGORY: {get_category(category_id=1)}")
-# print(f"GET SPECIFIC CATEGORY (DOESN'T EXIST): {get_category(category_id=2)}")
+print(f"GET SPECIFIC CATEGORY: {get_category(category_id=1)}")
+print(f"GET SPECIFIC CATEGORY (DOESN'T EXIST): {get_category(category_id=2)}")
 
 
-# print(f"CREATE CATEGORY 2: {create_category(name='Second Category', todolist_id=user1_todolist_id)}")
-# print(f"GET ALL CATEGORIES OF LIST: {get_categories_from_list(todolist_id=user1_todolist_id)}")
+print(f"CREATE CATEGORY 2: {create_category(name='Second Category', todolist_id=user1_todolist_id)}")
+print(f"GET ALL CATEGORIES OF LIST: {get_categories_from_list(todolist_id=user1_todolist_id)}")
 
-# print(f"ASSIGN CATEGORY: {assign_category(task_id=1, category_id=1, access_token=token)}")
-# print(f"GET TODOLIST: {get_todolist(todolist_id=user1_todolist_id, access_token=token)}")
+print(f"ASSIGN CATEGORY: {assign_category(task_id=1, category_id=1, access_token=token)}")
+print(f"GET TODOLIST: {get_todolist(todolist_id=user1_todolist_id, access_token=token)}")
 
-# print(f"DELETE CATEGORY (WHILE ASSIGNED TO TASK): {delete_category(category_id=1)}")
-# print(f"REMOVE TASK FROM CATEGORY: {remove_task_from_category(task_id=1, category_id=1)}")
-# print(f"DELETE CATEGORY: {delete_category(category_id=1)}")
-# print(f"GET ALL CATEGORIES OF LIST: {get_categories_from_list(todolist_id=user1_todolist_id)}")
+print(f"DELETE CATEGORY (WHILE ASSIGNED TO TASK): {delete_category(category_id=1)}")
+print(f"REMOVE TASK FROM CATEGORY: {remove_task_from_category(task_id=1, category_id=1)}")
+print(f"DELETE CATEGORY: {delete_category(category_id=1)}")
+print(f"GET ALL CATEGORIES OF LIST: {get_categories_from_list(todolist_id=user1_todolist_id)}")
+print("\n##############################################\n")
